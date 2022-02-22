@@ -1,0 +1,39 @@
+{
+  "name": "recipe",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.5.9",
+    "@auth0/auth0-spa-js": "^1.20.0",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@vue/apollo-composable": "^4.0.0-alpha.16",
+    "@vue/apollo-option": "^4.0.0-alpha.16",
+    "@vueuse/head": "^0.7.5",
+    "apollo-link-ws": "^1.0.20",
+    "graphql": "^16.3.0",
+    "graphql-subscriptions": "^2.0.0",
+    "graphql-tag": "^2.12.6",
+    "subscriptions-transport-ws": "^0.11.0",
+    "vite-plugin-pages": "^0.20.2",
+    "vite-plugin-vue-layouts": "^0.6.0",
+    "vite-svg-loader": "^2.2.0",
+    "vue": "^3.2.25",
+    "vue-marquee-text-component": "^2.0.1",
+    "vue-router": "4",
+    "vue3-popper": "^1.4.1",
+    "vue3-star-ratings": "^1.1.0",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.2.0",
+    "autoprefixer": "^10.4.2",
+    "postcss": "^8.4.6",
+    "tailwindcss": "^3.0.22",
+    "vite": "^2.8.0"
+  }
+}
