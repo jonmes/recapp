@@ -54,18 +54,19 @@ export const signIn = async () => {
     auth0Client = await getAuthClient()
     store.dispatch('main/setAuthClient', auth0Client)
     try {
-        // await auth0Client.loginWithPopup({})    => works perfectly returns user data and access token from auth 0
+        await auth0Client.loginWithPopup({})   // => works perfectly returns user data and access token from auth 0
 
-        await auth0Client.loginWithRedirect({
-            appState: {
-                redirect_uri: 'http://localhost:3000/', // ========> expected to return user data and access token then redirect to specified uri but instead 
-            },                                          //           returns user as undefined and something called "browser-tabs-lock-key-auth0.lock.getTokenSilently"
-        })
+        // await auth0Client.loginWithRedirect({
+        //     appState: {
+        //         redirect_uri: 'http://localhost:3000/', // ========> expected to return user data and access token then redirect to specified uri but instead 
+        //     },                                          //           returns user as undefined and something called "browser-tabs-lock-key-auth0.lock.getTokenSilently"
+        // })
 
         
 
         const userData = await auth0Client.getUser()
         localStorage.setItem('user', JSON.stringify(userData))
+        console.log(await auth0Client.getTokenSilently(), 'token here')
         store.dispatch('main/setUser', userData)
         store.dispatch(
             'main/setUserAuthenticated',
