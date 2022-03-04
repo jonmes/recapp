@@ -6,9 +6,7 @@ let token
 let userInfo
 
 const getAuthClient = async () => {
-    // if (store.getters['main/authClient']) {
-    //     return store.getters['main/authClient']
-    // }
+
     if (store.getters['main/authClient']) {
         return store.getters['main/authClient']
     }
@@ -23,10 +21,10 @@ const getAuthClient = async () => {
     })
 }
 
-export const abe = async () => {
+export const refresher = async () => {
+    store.dispatch('main/setAuthLoadingStatus', true)
     auth0Client = await getAuthClient()
-    // console.log(await auth0Client.handleRedirectCallback(), 'Handle Rredirect Callback')
-    // console.log(await auth0Client.getUser(), 'User')
+
     if (await auth0Client.isAuthenticated()) {
         console.log('the user is authenitcated')
         store.dispatch('main/setAuthLoadingStatus', true)
@@ -39,7 +37,7 @@ export const abe = async () => {
         )
         store.dispatch('main/setAuthLoadingStatus', false)
     }
-    console.log(await auth0Client.isAuthenticated(), ' this is auth0 client')
+//     console.log(await auth0Client.isAuthenticated(), ' this is auth0 client')
     // console.log(await auth0Client.getTokenSilently(), 'this is auth0Client')
     // console.log(await auth0Client.getUser(), 'this is auth0Client User')
     // console.log(await auth0Client.isAuthenticated(), 'this is auth0Client User')
@@ -66,18 +64,16 @@ export const signIn = async () => {
 
         const userData = await auth0Client.getUser()
         localStorage.setItem('user', JSON.stringify(userData))
-        console.log(await auth0Client.getTokenSilently(), 'token here')
+        token = await auth0Client.getTokenSilently()
+        localStorage.setItem('token', token)
         store.dispatch('main/setUser', userData)
         store.dispatch(
             'main/setUserAuthenticated',
             await auth0Client.isAuthenticated()
-        )
-        store.dispatch('main/setAuthLoadingStatus', false)
-        token = await auth0Client.getTokenSilently()
+            )
+            store.dispatch('main/setAuthLoadingStatus', false)
         userInfo = await auth0Client.getUser()
-        abe()
         console.log(userInfo.sub)
-        console.log(token, 'this is token')
     } catch (e) {
         console.error(e)
     }
@@ -85,6 +81,7 @@ export const signIn = async () => {
 
 export const signOut = async () => {
     localStorage.removeItem('user')
+    localStorage.removeItem('token')
     return auth0Client.logout()
 }
 
@@ -94,14 +91,12 @@ export const authGuard = async function (to, from, next) {
     auth0Client = await getAuthClient()
     store.dispatch('main/setAuthClient', auth0Client)
 
-    // console.log(await auth0Client.getTokenSilently());
-
     if (await auth0Client.isAuthenticated()) {
         console.log('User is authenticated')
         const userData = await auth0Client.getUser()
         store.dispatch('main/setUser', userData)
-        store.dispatch('main/setAuthLoadingStatus', true)
-        store.dispatch('main/setUserAuthenticated', false)
+        store.dispatch('main/setAuthLoadingStatus', false)
+        store.dispatch('main/setUserAuthenticated', true)
         console.log('user authenitcated')
         return { go: next(), vld: true }
     } else {
@@ -158,11 +153,10 @@ if (store.getters['main/isLoading'] === false) {
         auth0Client = await getAuthClient()
         const headers = {}
         // const isauth = await auth0Client.isAuthenticated();
-        // console.log(isauth, 'is Authenticated')
         if (await auth0Client.isAuthenticated()) {
-            const token = await auth0Client.getTokenSilently()
-            if (token) {
-                headers.Authorization = `Bearer ${token}`
+            // const token = await auth0Client.getTokenSilently()
+            if (localStorage.token) {
+                headers.Authorization = `Bearer ${localStorage.token}`
             }
             return headers
         } else {
@@ -197,10 +191,10 @@ if (store.getters['main/isLoading'] === false) {
     const authLink = setContext(async () => {
         auth0Client = await getAuthClient()
         if (await auth0Client.isAuthenticated()) {
-            const token = await auth0Client.getTokenSilently()
+            // const token = await auth0Client.getTokenSilently()
             return {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${localStorage.token}`,
                 },
             }
         } else {
@@ -231,6 +225,6 @@ export const apolloclient = apolloClient
 
 export const apolloProvider = createApolloProvider({
     defaultClient: apolloClient,
-    abebe: abe(),
-    // abebe: signOut()
+    refresh: refresher(),
+    // signout: signOut()
 })

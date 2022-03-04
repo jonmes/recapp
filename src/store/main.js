@@ -25,13 +25,15 @@ const actions = {
     commit(types.SET_USER, { user });
   },
   setAuthLoadingStatus({ commit }, isLoading) {
+    console.log(isLoading, 'showing user auth loading')
     commit(types.SET_AUTH_LOADING_SATUS, { isLoading });
   },
   setUserAuthenticated({ commit }, isAuthenticated) {
+    console.log(isAuthenticated, 'showing user authentication')
     commit(types.SET_AUTH_AUTHENTICATED, { isAuthenticated });
   },
   setAuthClient({ commit }, client) {
-    console.log(client, "this is client")
+    // console.log(client, "this is client")
     commit(types.SET_AUTH_CLIENT, { client });
   },
 };
@@ -40,7 +42,7 @@ const actions = {
 const mutations = {
   [types.SET_USER](state, { user }) {
     state.user = user;
-    console.log(user)
+    console.log(user, 'loggin user')
   },
   [types.SET_AUTH_LOADING_SATUS](state, { status }) {
     state.auth.isLoading = status;

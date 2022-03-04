@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from '~pages'
+import { authGuard } from '../auth'
 
 // import { setupLayouts } from 'virtual:generated-layouts'
 // import generatedRoutes from 'virtual:generated-pages'
@@ -13,6 +14,10 @@ console.log('routes: ', routes)
 const router = createRouter({
     history: createWebHistory(),
     routes,
+})
+
+router.beforeEach((to, from, next) => {
+    next()
 })
 
 export default router

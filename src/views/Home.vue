@@ -89,7 +89,7 @@
               <img :src="`/img/avatar-${i}.jpeg`" alt />
             </div>
           </div>
-          <div class="pt-3 font-bold">Happy users</div>
+          <div class="pt-3 font-bold">Top Rated Chefs</div>
           <div class="flex items-center text-gray-600 leading-relaxed">
             <StarIcon class="w-5 h-5" />
             <span class="pl-1">4.9 (+2.5k Ratings)</span>
@@ -105,7 +105,7 @@
           </div>
         </div>
         <div class="hidden md:flex justify-end align-center space-x-1 font-bold">
-          <span>Powered by</span>
+          <span>Intern Project for</span>
           <Minab class="w-8 h-8 text-green-900 fill-current" />
           <span>Minab</span>
         </div>

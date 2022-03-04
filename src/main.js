@@ -5,7 +5,6 @@ import router from './router'
 import store from './store'
 import { DefaultApolloClient } from '@vue/apollo-composable'
 import * as apolloClient from './auth'
-// import auth0Plugin from './auth/auth0-plugin.vue'
 import { createHead } from '@vueuse/head'
 import VeeValidate from './includes/validation'
 
@@ -19,7 +18,6 @@ const app = createApp({
 const head = createHead()
 app.use(router)
 app.use(store)
-// app.use(auth0Plugin)
 app.use(head)
 app.use(VeeValidate)
 app.mount('#app')

@@ -116,12 +116,20 @@
             <div class="flex w-full items-center mt-5 mb-5">
                 <label class="w-2/12">Category</label>
                 <vee-field
+                    as="select"
                     name="category"
                     type="text"
                     v-model="category"
                     class="shadow appearance-none border rounded w-3/12 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     placeholder
-                />
+                >
+                    <option value="Soup">Soup</option>
+                    <option value="Juice">Juice and Coctail</option>
+                    <option value="Seafoods">Frozen Seafoods</option>
+                    <option value="Meats">Raw Meat</option>
+                    <option value="Fruits_and_Vegetables">Fruits and Vegetables</option>
+                    <option value="Breads_and_Sweets">Breads and Sweets</option>
+                </vee-field>
                 <ErrorMessage class="text-red-600 ml-5" name="category" />
 
                 <input type="text" v-model="userData" class="hidden" />
@@ -301,7 +309,6 @@ useHead({
     title: 'Cook',
 });
 
-
 const router = useRouter()
 
 const reg_in_submission = ref(false)
@@ -320,7 +327,6 @@ const schema = {
     images: 'required'
 }
 const register = (values) => {
-    console.log('hello every bady what is goingon ')
     reg_show_alert.value = true
     reg_in_submission.value = true
     reg_alert_variant.value = ref('bg-green-300')
@@ -340,7 +346,6 @@ const openUploadModal = () => {
             { cloud_name: 'dyut9eifz', upload_preset: 'recipe' },
             (error, result) => {
                 if (!error && result && result.event === 'success') {
-                    // console.log('Done uploading..: ', result.info.url)
                     imageArray.value.push(result.info.url)
                 }
             }
@@ -349,12 +354,11 @@ const openUploadModal = () => {
 }
 
 const title = ref('')
-const category = ref('')
+const category = ref()
 const prep_time = ref('')
 const calories = ref('')
 const servings = ref('')
 const description = ref('')
-
 const ingrediant = ref([{ ing: '' }])
 const steps = ref([{ step: '' }])
 
@@ -418,5 +422,15 @@ onDone(() => {
     router.push({ name: 'Profile' })
 })
 </script>
+
+
+<route>
+{
+  name: "Cook",
+  meta: {
+    requiresAuth: true
+  }
+}
+</route>
 
 <style scoped></style>

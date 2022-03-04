@@ -10,8 +10,10 @@
       <span class="hidden xl:inline-block">XL</span>
     </div>
   <router-view></router-view>
+  <Footer/>
 </template>
 
 <script setup>
 import NavBarVue from './components/NavBar.vue';
+import Footer from './components/Footer.vue'
 </script>

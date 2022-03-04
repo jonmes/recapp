@@ -1,20 +1,17 @@
 <template>
+    <div class="h-screen">
     <section
         class="flex flex-wrap gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
     >
-        <h1 class="w-full mt-10 font-great font-black text-4xl text-center">Your Favorite Recipes</h1>
+        <h1 v-show="favorites.length > 0" class="w-full mt-10 font-great font-black text-4xl text-center">Your Favorite Recipes</h1>
+        <h1 v-show="favorites.length < 1" class="w-full mt-10 font-great font-black text-4xl text-center">You Have No Favorite Recipe Yet</h1>
     </section>
     <section
-        class="flex flex-wrap gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
+        class="flex flex-wrap gap-y-24 justify-center py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
     >
         <p v-if="favError">Something went wrong...</p>
         <p v-if="favLoading">Loading...</p>
         <template v-else>
-            <div v-show="favorites.length < 1">
-                <h1
-                    class="w-full mt-10 font-great font-black text-4xl text-center"
-                >You Have No Favorite Recipe Yet</h1>
-            </div>
             <div
                 class="w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-7 gap-y-4"
             >
@@ -80,6 +77,8 @@
             </div>
         </template>
     </section>
+
+    </div>
 </template>
 
 <script setup>
