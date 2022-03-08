@@ -154,23 +154,23 @@ const userId = ref('')
 
 
 
-const settingProfile = () => {
-    if (localStorage.user) {
-        nickname.value = JSON.parse(localStorage.user).nickname
-        picture.value = JSON.parse(localStorage.user).picture
-        console.log('hellllllllllllllllllllllllllloooooooooooooooooooooooooooooooo')
-        // enabled.value = true
-    }
-}
+// const settingProfile = () => {
+//     if (localStorage.user) {
+//         nickname.value = JSON.parse(localStorage.user).nickname
+//         picture.value = JSON.parse(localStorage.user).picture
+//         // enabled.value = true
+//     }
+// }
 
-settingProfile()
+// settingProfile()
 
 
 const login = async () => {
     await signIn()
     if (authenticated.value) {
         router.push({ name: 'Home' })
-        settingProfile()
+        // settingProfile()
+        // $router.go(0);
         enabled.value = true
     }
 }
@@ -183,41 +183,41 @@ const logout = async () => {
 // ================ Query ==================
 
 
-// onUpdated(() => {
-//     userId.value = JSON.parse(localStorage.user).sub;
-//     console.log(userId.value, 'this is where we know about user authentication')
-//     if(authenticated.value){
-//         enabled.value = true
-//     }
-//     console.log(enabled.value, 'this is authenticated value .j000000000000000000000000000000000');
-// })
+onUpdated(() => {
+    userId.value = JSON.parse(localStorage.user).sub;
+    console.log(userId.value, 'this is where we know about user authentication')
+    if(authenticated.value){
+        enabled.value = true
+    }
+    console.log(enabled.value, 'this is authenticated value .j000000000000000000000000000000000');
+})
 
 
-// const {
-//     result: userResult,
-//     loading: userLoading,
-//     error: userError,
-//     // refetch: refetchUser,
-//     onResult
-// } = useQuery(get_user_data.query,
-//     () => ({ user_id: userId.value }),
-//     () => ({ enabled: enabled.value })
-// )
+const {
+    result: userResult,
+    loading: userLoading,
+    error: userError,
+    // refetch: refetchUser,
+    onResult
+} = useQuery(get_user_data.query,
+    () => ({ user_id: userId.value }),
+    () => ({ enabled: enabled.value })
+)
 
-// picture.value = useResult(userResult, null, data => data.users_by_pk.avatar)
-// console.log(picture.value, 'this is picture')
+picture.value = useResult(userResult, null, data => data.users_by_pk.avatar)
+console.log(picture.value, 'this is picture')
 
 
 
-// onResult(queryResult => {
-//     console.log(queryResult.data, 'this is queyr result data')
-//     if(queryResult.data){
-//         picture.value = queryResult.data.users_by_pk.avatar
-//         nickname.value = queryResult.data.users_by_pk.name
-//         console.log(picture.value, 'picture value')
-//     }
-//     console.log(queryResult.loading, 'same here')
-// })
+onResult(queryResult => {
+    console.log(queryResult.data, 'this is queyr result data')
+    if(queryResult.data){
+        picture.value = queryResult.data.users_by_pk.avatar
+        nickname.value = queryResult.data.users_by_pk.name
+        console.log(picture.value, 'picture value')
+    }
+    console.log(queryResult.loading, 'same here')
+})
 
 
 

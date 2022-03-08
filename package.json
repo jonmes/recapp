@@ -10,6 +10,8 @@
   "dependencies": {
     "@apollo/client": "^3.5.9",
     "@auth0/auth0-spa-js": "^1.20.0",
+    "@dgknca/vue-loading-spinner": "^1.1.0",
+    "@saeris/vue-spinners": "^1.0.8",
     "@tailwindcss/aspect-ratio": "^0.4.0",
     "@vee-validate/rules": "^4.5.9",
     "@vue/apollo-composable": "^4.0.0-alpha.16",

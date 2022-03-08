@@ -8,6 +8,7 @@ import * as apolloClient from './auth'
 import { createHead } from '@vueuse/head'
 import VeeValidate from './includes/validation'
 
+
 const app = createApp({
     setup() {
         provide(DefaultApolloClient, apolloClient.apolloclient)

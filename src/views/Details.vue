@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="bg-gradient-to-br from-transparent to-green-100">
         <!-- <h2>{{ id }}</h2> -->
         <p v-if="recipeError">Something Went Wrong</p>
-        <p v-if="recipeLoading">Loading...</p>
+        <p v-if="recipeLoading"><RotateSquare2 /> Loading ...</p>
         <template v-else>
             <div class="max-w-screen-xl items-center py-6 px-6 mx-auto md:px-12 lg:px-16 xl:px-24">
                 <div class="py-6 w-full">
@@ -51,12 +51,9 @@
                                     />
                                 </svg>
                             </span>
-                            <router-link
-                                :to="{
-                                    name: 'Browse',
-                                }"
+                            <span
                                 class="hover:underline hover:text-gray-600"
-                            >{{ recipe.category }}</router-link>
+                            >{{ recipe.category }}</span>
                             <!-- <span>{{ recipe[0].category }}</span> -->
                         </div>
                     </div>
@@ -99,7 +96,7 @@
                                 <div class="flex justify-center">{{ ratingVal }} Stars</div>
                                 <button
                                     class="bg-green mr-5 sm:w-auto h-8 px-10 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
-                                    @click="rateRecipe(); close();"
+                                    @click="addrateRecipe(); close();"
                                 >Rate</button>
                                 <button
                                     class="bg-green sm:w-auto h-8 px-10 font-large text-white rounded-xl whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
@@ -140,7 +137,7 @@
                         </div>
                     </div>
                     <div
-                        class="relative h-0 mt-96 pt-10 sm:pt-0 sm:mt-48 md:mt-24 lg:mt-0 xl:mt-0 pb-0"
+                        class="relative h-0 mt-96 pt-10 sm:pt-0 sm:mt-48 md:mt-128 lg:mt-0 xl:mt-0 pb-0 md:mb-72"
                     >
                         <div class="px-4">
                             <h2
@@ -176,7 +173,7 @@
                                 <button
                                     type="button"
                                     class="h-14 px-20 py-2 font-semibold flex rounded-xl bg-green hover:bg-gradient-to-r from-green-500 to-pink-500 hover:shadow-2xl text-white items-center"
-                                    @click="favorite()"
+                                    @click="addFavorite()"
                                 >
                                     <i class="bx bxs-heart bx-md"></i>
                                     <span>add to favorite</span>
@@ -188,8 +185,8 @@
                         <h1>Hello Guys</h1>
                     </div>-->
                 </div>
-                <div class="w-full mb-32">
-                    <h2 class="w-full font-black font-great text-4xl mb-5">Ingredients</h2>
+                <div class="w-full mb-32 lg:mt-60 xl:mt-0">
+                    <h2 class="w-full font-black font-great text-4xl mb-5 ">Ingredients</h2>
                     <ul v-for="(ing, index) in recipe.ingrediants" :key="index" class="text-2xl ml-10 pb-3">
                         <li>{{index + 1}}. &nbsp;{{ ing }}</li>
                     </ul>
@@ -210,11 +207,11 @@
 
                 <!-- ============== Comments ====================== -->
 
-                <div
+                <!-- <div
                     v-if="reg_show_alert"
                     class="text-white bg-green-400 text-2xl text-center font-bold p-5 mb-4"
                     :class="reg_alert_variant"
-                >{{ reg_alert_msg }}</div>
+                >{{ reg_alert_msg }}</div> -->
                 <h2 class="w-full font-black font-great text-4xl mb-5">Comments</h2>
                 <vee-form :validation-schema="schema" @submit="register">
                     <!-- <input type="hidden" /> -->
@@ -265,6 +262,7 @@
 
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
+import { signIn } from '../auth'
 import { useRouter, useRoute } from 'vue-router'
 import { useQuery, useResult, useMutation } from '@vue/apollo-composable'
 import { get_recipe_detail, get_comment } from '../graphql/query'
@@ -278,7 +276,7 @@ useHead({
 
 const route = useRoute()
 const router = useRouter()
-const id = route.params.id // read parameter id (it is reactive)
+const id = route.query.id // read parameter id (it is reactive)
 const showControl = ref(false)
 const disableClick = ref(true)
 const ratingVal = ref(0)
@@ -292,29 +290,59 @@ const schema = {
     comment: 'required'
 }
 
+
+const store = useStore()
+const userData = computed(() => store.getters['main/user'])
+console.log(userData.value,'this is user data from detials page');
+
 const register = (values) => {
     reg_show_alert.value = true
     reg_in_submission.value = true
-    reg_alert_variant.value = ref('bg-green-500')
-    reg_alert_msg.value = ref('Please wait! Your Comment!')
-    reg_alert_variant.value = ref('bg-green-500')
-    reg_alert_msg.value = ref('Success! Your Comment has been created.')
-
-    createComment()
-
-    setTimeout(() => {
-        reg_show_alert.value = false
-    }, 2000)
+    // reg_alert_variant.value = ref('bg-green-500')
+    // reg_alert_msg.value = ref('Please wait! Your Comment!')
+    // reg_alert_variant.value = ref('bg-green-500')
+    // reg_alert_msg.value = ref('Success! Your Comment has been created.')
+    if(userData.value){
+        createComment()
+    }else{
+        signIn()
+    }
+    // setTimeout(() => {
+    //     reg_show_alert.value = false
+    // }, 2000)
 }
 
+
+const addFavorite = () => {
+    if(userData.value){
+        favorite()
+    }else{
+        signIn()
+    }
+}
+
+const addrateRecipe = () => {
+    if(userData.value){
+        rateRecipe()
+    }else{
+        signIn()
+    }
+}
 //  =============  Queries ====================
 
 const {
     result: recipeDetail,
     loading: recipeLoading,
     error: recipeError,
+    onResult: detailOnResult,
     refetch
-} = useQuery(get_recipe_detail.query, { id })
+} = useQuery(get_recipe_detail.query,
+() => ({ id }))
+
+
+detailOnResult(queryResult => {
+    console.log(queryResult.data, 'this is queryy result right here')
+})
 refetch()
 
 const recipe = useResult(recipeDetail, null, data => data.recipes[0])

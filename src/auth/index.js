@@ -73,7 +73,6 @@ export const signIn = async () => {
             )
             store.dispatch('main/setAuthLoadingStatus', false)
         userInfo = await auth0Client.getUser()
-        console.log(userInfo.sub)
     } catch (e) {
         console.error(e)
     }
@@ -90,7 +89,6 @@ export const authGuard = async function (to, from, next) {
 
     auth0Client = await getAuthClient()
     store.dispatch('main/setAuthClient', auth0Client)
-
     if (await auth0Client.isAuthenticated()) {
         console.log('User is authenticated')
         const userData = await auth0Client.getUser()
@@ -105,7 +103,12 @@ export const authGuard = async function (to, from, next) {
         store.dispatch('main/setAuthLoadingStatus', false)
         store.dispatch('main/setUserAuthenticated', false)
         console.log('user unAuthenticated')
-        return { go: signIn(), vld: false }
+        await signIn()
+        if(await auth0Client.isAuthenticated()){
+            return {go: next(), vld: true}
+        }else{
+            return { go: next('/'), vld: false }
+        }
     }
 }
 // ======================= APOLLO without authentication ===============

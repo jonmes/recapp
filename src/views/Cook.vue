@@ -1,6 +1,6 @@
 <template>
     <div
-        class="flex flex-wrap justify-center px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24 mt-12 z-0"
+        class="flex flex-wrap justify-center px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24 z-0  bg-gradient-to-br from-transparent to-green-100"
     >
         <div
             v-if="reg_show_alert"
@@ -429,7 +429,7 @@ onDone(() => {
   name: "Cook",
   meta: {
     requiresAuth: true
-  }
+  },
 }
 </route>
 

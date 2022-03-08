@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen">
+    <div class=" bg-gradient-to-br from-transparent to-green-100">
     <section
         class="flex flex-wrap gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
     >
@@ -7,7 +7,7 @@
         <h1 v-show="favorites.length < 1" class="w-full mt-10 font-great font-black text-4xl text-center">You Have No Favorite Recipe Yet</h1>
     </section>
     <section
-        class="flex flex-wrap gap-y-24 justify-center py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
+        class="h-screen flex flex-wrap gap-y-24 justify-center py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
     >
         <p v-if="favError">Something went wrong...</p>
         <p v-if="favLoading">Loading...</p>
@@ -114,5 +114,15 @@ favRefetch()
 const favorites = useResult(favResult, null, data => data.favorites)
 console.log(favorites, 'favorites')
 </script>
+
+
+<route>
+{
+  name: "Favorites",
+  meta: {
+    requiresAuth: true
+  },
+}
+</route>
 
 <style lang="scss" scoped></style>

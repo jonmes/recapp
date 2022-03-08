@@ -103,11 +103,11 @@
                     <h1
                         class="w-full mt-10 font-great font-black text-4xl text-center"
                     >Search Your Favorite Recipe</h1>
-                    <div class="w-full mt-16 mb-20 my-2 flex sm:flex-row flex-col">
+                    <div class="w-full mt-16 mb-20 my-2 flex sm:flex-row items-center flex-col">
                         <div class="flex flex-row mb-1 sm:mb-0">
                             <div class="relative">
                                 <select
-                                    class="appearance-none h-full rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                    class="appearance-none rounded-l border block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                                     v-model="selectedTime"
                                 >
                                     <option value="All">All</option>
@@ -117,7 +117,7 @@
                                     <option value="60">Over 1 hour</option>
                                 </select>
                                 <div
-                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
+                                    class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 lg:-mt-0 xl:mt-0 text-gray-700"
                                 >
                                     <svg
                                         class="fill-current h-4 w-4"
@@ -131,8 +131,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-full block relative">
-                            <span class="h-full absolute inset-y-0 left-0 flex items-center pl-2">
+                        <div class="w-full relative">
+                            <span class="h-full absolute inset-y-0 left-0 flex items-center -mt-5 sm:mt-0 pl-2">
                                 <svg
                                     viewBox="0 0 24 24"
                                     class="h-4 w-4 fill-current text-gray-500"
@@ -142,12 +142,12 @@
                                     />
                                 </svg>
                             </span>
-                            <span class="w-full">
+                            <span class="w-full ">
                                 <input
                                     placeholder="Search by recipe name or by ingrediant"
                                     v-model="searchContent"
                                     @keypress.enter="searchView()"
-                                    class="inline-block w-10/12 appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                                    class="inline-block lg:w-9/12 xl:w-10/12 appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
                                 />
                                 <button
                                     class="bg-green sm:w-auto ml-4 h-10 py-2 h-8 px-10 font-large text-white rounded-md whitespace-nowrap hover:shadow-xl transition-shadow duration-300"
@@ -162,25 +162,26 @@
 
                 <template v-if="searchLoading">
                     <div class="w-full flex justify-center">
-                        <!-- <CubeSpin></CubeSpin> -->
-                        Loading...
+                        <RotateSquare2 />
                     </div>
                 </template>
                 <template v-else>
                     <div
                         class="w-full h-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-x-7 gap-y-4"
                     >
-                    <div
+                        <div
                             v-show="byCategory == true"
                             class="max-w-xs mb-5 rounded-md overflow-hidden hover:scale-105 hover:shadow-2xl transition duration-300 cursor-pointer"
                             v-for="rec in categorySrc"
                             :key="rec.id"
                         >
+
                             <router-link
                                 role="button"
                                 :to="{
                                     name: 'Details',
                                     params: { id: rec.id },
+                                    query: { id: rec.id },
                                 }"
                                 class="font-semibold text-gray-800"
                             >
@@ -235,7 +236,7 @@
                                 role="button"
                                 :to="{
                                     name: 'Details',
-                                    params: { id: rec.id },
+                                    query: { name: rec.name, id: rec.id  },
                                 }"
                                 class="font-semibold text-gray-800"
                             >
@@ -294,6 +295,7 @@ import { search_recipe, get_recipe_by_category } from '../graphql/query'
 import vue3starRatings from 'vue3-star-ratings'
 import Bread from '../assets/images/bread.svg'
 // import CubeSpin from 'vue-loading-spinner/components/Cube'
+import {RotateSquare2} from '@dgknca/vue-loading-spinner'
 import { useHead } from '@vueuse/head'
 useHead({
     title: 'Browse Recipe',
@@ -315,14 +317,14 @@ const {
     result: catResult,
     loading: catLoading,
     error: catError
-} = useQuery(get_recipe_by_category.query, 
-() => ({ category: catValue.value, }),
-    () => ({enabled: enabled.value,})
+} = useQuery(get_recipe_by_category.query,
+    () => ({ category: catValue.value, }),
+    () => ({ enabled: enabled.value, })
 )
 
 const categorySrc = useResult(catResult, null, data => data.recipes)
 
-function srcCat(cat){
+function srcCat(cat) {
     console.log(cat, 'this is cat')
     catValue.value = cat
     enabled.value = true
@@ -353,10 +355,16 @@ const searchView = () => {
 watchEffect(() => {
 
     if (selectedTime.value == 15) {
+        // console.log(searchRecipe.value, ' search recipe value');
+        // searchView()
         searchArray.value = searchRecipe.value.filter(rec => rec.prep_time <= selectedTime.value)
     } else if (selectedTime.value == 30) {
+        // console.log(searchRecipe.value, ' search recipe value');
+        // searchView()
         searchArray.value = searchRecipe.value.filter(rec => rec.prep_time <= selectedTime.value && rec.prep_time > 15)
     } else if (selectedTime.value == 59) {
+        // console.log(searchRecipe.value, ' search recipe value');
+        // searchView()
         searchArray.value = searchRecipe.value.filter(rec => rec.prep_time <= selectedTime.value && rec.prep_time > 30)
     } else if (selectedTime.value == 60) {
         // console.log(selectedTime.value, 'timer value after')
@@ -380,4 +388,8 @@ allRefetch()
 
 
 <style scoped>
+
+.spinner {
+    background-color: transparent !important;
+}
 </style>

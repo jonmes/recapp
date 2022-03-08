@@ -66,6 +66,11 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
+"@dgknca/vue-loading-spinner@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@dgknca/vue-loading-spinner/-/vue-loading-spinner-1.1.0.tgz#0a019b530b0aff1c23651e093d97b3f83ed0a872"
+  integrity sha512-WmFZFXyEDNsT/XunG1yqZqA6YEX6uXVkMOw60pTQSENLniX/VwQkhzb0AG+7I5jEkcU9MT/qtyvjKnFYZ7WzQw==
+
 "@graphql-typed-document-node/core@^3.0.0":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.1.tgz#076d78ce99822258cf813ecc1e7fa460fa74d052"
@@ -96,6 +101,11 @@
   version "2.11.2"
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.11.2.tgz#830beaec4b4091a9e9398ac50f865ddea52186b9"
   integrity sha512-92FRmppjjqz29VMJ2dn+xdyXZBrMlE42AV6Kq6BwjWV7CNUW1hs2FtxSNLQE+gJhaZ6AAmYuO9y8dshhcBl7vA==
+
+"@saeris/vue-spinners@^1.0.8":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@saeris/vue-spinners/-/vue-spinners-1.0.8.tgz#bc66975143ccfeeb60d38eb207729384804ee755"
+  integrity sha512-sSUWFVdYyAdLKuWuu+kk1ntiKt7AflqWGAsRoHkol1n2J8moFxIAwFf8RJmdPGLmdjvz8TBuXjy67NOIdhSlFg==
 
 "@tailwindcss/aspect-ratio@^0.4.0":
   version "0.4.0"
