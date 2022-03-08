@@ -1,17 +1,7 @@
 <template>
   <div
-    class="w-full min-h-screen font-sans text-gray-900 bg-gradient-to-br from-transparent to-green-100"
     :class="sidebarOpen ? 'overflow-hidden h-screen' : ''"
   >
-    <!-- <div
-      class="fixed px-3 py-2 text-sm font-bold text-white bg-gray-900 rounded bottom-4 left-4 z-50"
-    >
-      <span class="sm:hidden">DEFAULT</span>
-      <span class="hidden sm:inline-block md:hidden">SM</span>
-      <span class="hidden md:inline-block lg:hidden">MD</span>
-      <span class="hidden lg:inline-block xl:hidden">LG</span>
-      <span class="hidden xl:inline-block">XL</span>
-    </div>-->
 
     <section
       class="flex flex-wrap-reverse gap-y-24 justify-between py-12 px-6 mx-auto max-w-screen-xl sm:px-8 md:px-12 lg:px-16 xl:px-24"
@@ -112,7 +102,6 @@
       </div>
     </section>
     <!-- <marquee-vue /> -->
-    <FooterVue />
   </div>
 </template>
 
@@ -122,7 +111,6 @@ import HamburgerIcon from '../assets/icons/hamburger.svg'
 import StarIcon from '../assets/icons/star.svg'
 import Minab from '../assets/icons/minab.svg'
 // import MarqueeVue from '../components/Marquee.vue';
-import FooterVue from '../layouts/Footer.vue';
 import { useHead } from '@vueuse/head'
 useHead({
   title: 'Recipe',

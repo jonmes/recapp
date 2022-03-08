@@ -2,7 +2,9 @@
     <div class="bg-gradient-to-br from-transparent to-green-100">
         <!-- <h2>{{ id }}</h2> -->
         <p v-if="recipeError">Something Went Wrong</p>
-        <p v-if="recipeLoading"><RotateSquare2 /> Loading ...</p>
+        <p v-if="recipeLoading">
+            <RotateSquare2 />Loading ...
+        </p>
         <template v-else>
             <div class="max-w-screen-xl items-center py-6 px-6 mx-auto md:px-12 lg:px-16 xl:px-24">
                 <div class="py-6 w-full">
@@ -51,9 +53,7 @@
                                     />
                                 </svg>
                             </span>
-                            <span
-                                class="hover:underline hover:text-gray-600"
-                            >{{ recipe.category }}</span>
+                            <span class="hover:underline hover:text-gray-600">{{ recipe.category }}</span>
                             <!-- <span>{{ recipe[0].category }}</span> -->
                         </div>
                     </div>
@@ -112,12 +112,16 @@
                     <div
                         class="relative col-span-4 sm:col-span-3 lg:col-span-2 xl:col-span-2 h-0 lg:pb-1/3 xl:pb-1/3 sm:pt-1/3 lg:pt-2/3"
                     >
-                        <img
-                            class="absolute inset-0 w-full h-128 object-cover shadow-lg rounded-lg"
-                            :src="recipe.image[imgToShow]"
-                            alt="recipeImage"
-                        />
+                        <transition name="slide" mode="out-in">
+                            <img
+                                class="absolute inset-0 w-full h-128 object-cover shadow-lg rounded-lg"
+                                :src="recipe.image[imgToShow]"
+                                alt="recipeImage"
+                            />
+                        </transition>
+
                         <!-- Image Selection -->
+
                         <div
                             class="w-full h-full mt-128 pt-2 sm:mt-80 md:mt-72 lg:mt-32 xl:mt-10 grid grid-cols-6 sm:grid-cols-6 lg:grid-cols-4 xl:grid-cols-6 gap-x-1 gap-y-28 sm:gap-x-1 sm:gap-y-20 md:gap-x-1 md:gap-y-16 lg:gap-x-0 lg:gap-y-2 xl:gap-x-1 xl:gap-y-6"
                         >
@@ -136,6 +140,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div
                         class="relative h-0 mt-96 pt-10 sm:pt-0 sm:mt-48 md:mt-128 lg:mt-0 xl:mt-0 pb-0 md:mb-72"
                     >
@@ -186,22 +191,36 @@
                     </div>-->
                 </div>
                 <div class="w-full mb-32 lg:mt-60 xl:mt-0">
-                    <h2 class="w-full font-black font-great text-4xl mb-5 ">Ingredients</h2>
-                    <ul v-for="(ing, index) in recipe.ingrediants" :key="index" class="text-2xl ml-10 pb-3">
-                        <li>{{index + 1}}. &nbsp;{{ ing }}</li>
+                    <h2 class="w-full font-black font-great text-4xl mb-5">Ingredients</h2>
+                    <ul
+                        v-for="(ing, index) in recipe.ingrediants"
+                        :key="index"
+                        class="text-2xl ml-10 pb-3"
+                    >
+                        <li>{{ index + 1 }}. &nbsp;{{ ing }}</li>
                     </ul>
                     <div class="mt-10">
-                    <h2 class="w-full font-black font-great text-4xl mb-5">Steps</h2>
-                    <ul v-for="(step, index) in recipe.steps" :key="index" class="text-2xl ml-10 pb-3">
-                        <li>
-                            <span><img src="https://img.icons8.com/ios-glyphs/30/000000/left-footprint--v2.png" class="inline-block"/>Step {{ index + 1 }}</span>
+                        <h2 class="w-full font-black font-great text-4xl mb-5">Steps</h2>
+                        <ul
+                            v-for="(step, index) in recipe.steps"
+                            :key="index"
+                            class="text-2xl ml-10 pb-3"
+                        >
+                            <li>
+                                <span>
+                                    <img
+                                        src="https://img.icons8.com/ios-glyphs/30/000000/left-footprint--v2.png"
+                                        class="inline-block"
+                                    />
+                                    Step {{ index + 1 }}
+                                </span>
 
-                        <br>
+                                <br />
 
-                        <span class="ml-10"> {{step}}</span>
-                        <br>
-                        </li>
-                    </ul>
+                                <span class="ml-10">{{ step }}</span>
+                                <br />
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
@@ -211,7 +230,7 @@
                     v-if="reg_show_alert"
                     class="text-white bg-green-400 text-2xl text-center font-bold p-5 mb-4"
                     :class="reg_alert_variant"
-                >{{ reg_alert_msg }}</div> -->
+                >{{ reg_alert_msg }}</div>-->
                 <h2 class="w-full font-black font-great text-4xl mb-5">Comments</h2>
                 <vee-form :validation-schema="schema" @submit="register">
                     <!-- <input type="hidden" /> -->
@@ -293,7 +312,7 @@ const schema = {
 
 const store = useStore()
 const userData = computed(() => store.getters['main/user'])
-console.log(userData.value,'this is user data from detials page');
+console.log(userData.value, 'this is user data from detials page');
 
 const register = (values) => {
     reg_show_alert.value = true
@@ -302,9 +321,9 @@ const register = (values) => {
     // reg_alert_msg.value = ref('Please wait! Your Comment!')
     // reg_alert_variant.value = ref('bg-green-500')
     // reg_alert_msg.value = ref('Success! Your Comment has been created.')
-    if(userData.value){
+    if (userData.value) {
         createComment()
-    }else{
+    } else {
         signIn()
     }
     // setTimeout(() => {
@@ -314,17 +333,17 @@ const register = (values) => {
 
 
 const addFavorite = () => {
-    if(userData.value){
+    if (userData.value) {
         favorite()
-    }else{
+    } else {
         signIn()
     }
 }
 
 const addrateRecipe = () => {
-    if(userData.value){
+    if (userData.value) {
         rateRecipe()
-    }else{
+    } else {
         signIn()
     }
 }
@@ -337,7 +356,7 @@ const {
     onResult: detailOnResult,
     refetch
 } = useQuery(get_recipe_detail.query,
-() => ({ id }))
+    () => ({ id }))
 
 
 detailOnResult(queryResult => {
@@ -445,5 +464,15 @@ const convertTime = (apiTime) => {
 :deep(.popper:hover),
 :deep(.popper:hover > #arrow::before) {
     background: #627e5f;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+    transition: opacity 0.5s, transform 0.5s;
+}
+.slide-enter-from,
+.slide-leave-to {
+    opacity: 0;
+    transform: translateX(-10%);
 }
 </style>

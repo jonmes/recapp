@@ -2,7 +2,7 @@
     <div
         class="flex max-w-screen-xl justify-between items-center py-6 px-6 mx-auto md:px-12 lg:px-16 xl:px-24"
     >
-        <div class="w-full h-screen grid grid-cols-3 gap-10">
+        <div class="w-full grid grid-cols-3 gap-10">
             <div class="bg-white p-3 border-t-4 border-green-400 col-span-3 md:col-span-1">
                 <div class="image overflow-hidden">
                     <div class="relative">
