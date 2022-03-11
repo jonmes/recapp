@@ -9,6 +9,9 @@ import { authGuard, signIn } from '../auth'
 const root = { path: '/', redirect: '/home' }
 routes.push(root)
 
+const PageNotFound = {path: '/:pathMatch(.*)*', name: 'NotFound', component: ()=> import('../views/NotFound.vue')}
+routes.push(PageNotFound)
+
 // const routes = setupLayouts(generatedRoutes)
 console.log('routes: ', routes)
 
